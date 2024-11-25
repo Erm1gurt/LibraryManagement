@@ -93,7 +93,8 @@ class Manage:
             if search_query in book.author.lower():
                 result.append(book)
                 continue
-        self.view_books(result)
+        return result
+
 
     def view_books(self, book_list: list[Book] | None = None) -> None:
         '''
