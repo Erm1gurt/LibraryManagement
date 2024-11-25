@@ -53,7 +53,7 @@ class Manage:
 
     def add_book(self, title: str, author: str, year: int) -> None:
         '''
-        Функция для создания экземлпяра книги
+        Функция для создания экземпляра книги
         :param title: Название
         :param author: Автор
         :param year: Год издания
