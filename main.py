@@ -16,6 +16,12 @@ class Library:
 
     @staticmethod
     def is_next(move: str) -> bool:
+        '''
+        Функция для получения информации, хочет ли пользователь далее совершать действия внутри раздела,
+        в котором он находится
+        :param move: строка, указывающая действие (добавление, удаление или изменение книги)
+        :return:
+        '''
         next_book = input(f'  Хотите {move} другую книгу?\n'
                           '\t1 - Да\n'
                           '\t0 - Нет\n'
@@ -26,6 +32,12 @@ class Library:
 
     @staticmethod
     def set_char_fild(massage: str, error_massage: str) -> str:
+        '''
+        Функция, устанавливающая значение для строкового поля
+        :param massage: сообщение, которое пользователь получает при первичном запросе информации
+        :param error_massage: сообщение, которое пользователь получает при повторном запросе информации (если в первый раз указал не корректные данные)
+        :return: проверенные данные для строкового поля
+        '''
         fild = input(massage)
         while not fild:
             fild = input(error_massage)
@@ -33,12 +45,22 @@ class Library:
 
     @staticmethod
     def set_num_fild(massage: str, error_massage: str) -> int:
+        '''
+        Функция, устанавливающая значение для числового поля
+        :param massage: сообщение, которое пользователь получает при первичном запросе информации
+        :param error_massage: сообщение, которое пользователь получает при повторном запросе информации (если в первый раз указал не корректные данные)
+        :return: проверенные данные для числового поля
+        '''
         fild = input(massage)
         while not fild or not fild.isalnum() or not int(fild):
             fild = input(error_massage)
         return int(fild)
 
     def return_menu_or_close(self):
+        '''
+        Функция позволяющая пользователю вернуться в главное меню или завершить работу
+        :return:
+        '''
         move = input('\n  Хотите вернуться в меню или завершить работу?\n'
                      '\t0 - Завершить работу\n'
                      '\t1 - Вернуться в меню\n'
@@ -50,6 +72,10 @@ class Library:
             self.main_menu()
 
     def main_menu(self) -> None:
+        '''
+        Функция для главного меню, позволяет переходить между разделами
+        :return:
+        '''
         print('Добро пожаловать в систему управления данными библиотеки\n'
               '  Вы можете перейти в раздел:\n'
               '\t1. Добавления книги\n'
@@ -66,14 +92,20 @@ class Library:
         self.move[move]()
 
     def add_book(self, next_book: bool = False) -> None:
+        '''
+        Функция для добавления книг в БД
+        :param next_book: не обязательный параметр, указывает на то, что пользователь добавляет дополнительную книгу
+        :return:
+        '''
         if not next_book:
             print('\nВы перешли в раздел добавления книги')
         print('  Чтобы добавить книгу укажите')
 
-        title = self.set_char_fild('\t1. Название книги: ', '  Поле название книги не может быть пустым, укажите название: ')
+        title = self.set_char_fild('\t1. Название книги: ',
+                                   '  Поле название книги не может быть пустым, укажите название: ')
         author = self.set_char_fild('\t2. Автора: ', '  Поле автор не может быть пустым, укажите автора: ')
         year = self.set_num_fild('\t3. Год издания: ',
-                             '  Поле год не может быть пустым. Год может быть только числом больше, попробуйте снова: ')
+                                 '  Поле год не может быть пустым. Год может быть только числом больше, попробуйте снова: ')
 
         self.manage.add_book(title, author, int(year))
 
@@ -87,6 +119,11 @@ class Library:
             self.return_menu_or_close()
 
     def del_book(self, next_book: bool = False) -> None:
+        '''
+        Функция для удаления книг из БД
+        :param next_book: не обязательный параметр, указывает на то, что пользователь удаляет дополнительную книгу
+        :return:
+        '''
         if not next_book:
             print('\nВы перешли в раздел добавления книги')
         print('  Чтобы удалить книгу укажите')
@@ -107,6 +144,10 @@ class Library:
             self.return_menu_or_close()
 
     def search_book(self):
+        '''
+        Функция для поиска книг в БД и вывода их на экран
+        :return:
+        '''
         print('\nВы перешли в раздел поиска книг')
         print('  Чтобы найти книги укажите')
         search_query = self.set_char_fild('\t Название книги, Автора или Год издания: ',
@@ -123,11 +164,20 @@ class Library:
         self.return_menu_or_close()
 
     def view_book(self):
+        '''
+        Функция для вывода списка всех книг на экран
+        :return:
+        '''
         print('\n\tСписок всех книг: ')
         self.manage.view_books()
         self.return_menu_or_close()
 
     def change_book_status(self, next_book: bool = False):
+        '''
+        Функция для изменения статуса книги в БД
+        :param next_book: не обязательный параметр, указывает на то, что пользователь изменяет дополнительную книгу
+        :return:
+        '''
         print('\nВы перешли в раздел изменения статуса книг')
         print('  Чтобы изменить статус книги укажите')
         book_id = self.set_num_fild('\t1. УИД книги: ',
@@ -149,7 +199,7 @@ class Library:
             self.manage.write_db()
             self.return_menu_or_close()
 
+
 if __name__ == '__main__':
     menu = Library()
     menu.main_menu()
-
